@@ -6,7 +6,7 @@ const DEFAULT_CONFIG: Partial<AnalyticsConfig> = {
   debug: false,
   batchSize: 10,
   batchInterval: 5000,
-  endpoint: "http://localhost:3000/api/events",
+  endpoint: "https://analytics-nine-azure.vercel.app/api/events",
 };
 
 // Global variable to store the current configuration
