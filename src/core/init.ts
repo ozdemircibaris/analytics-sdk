@@ -16,7 +16,9 @@ export function initAnalytics(config: AnalyticsConfig): void {
     setupEventQueue();
 
     debugLog(config.debug || false, "Analytics SDK initialized successfully", {
-      endpoint: config.endpoint,
+      apiKey: config.apiKey ? "****" : undefined,
+      clientId: config.clientId ? "****" : undefined,
+      clientSecret: config.clientSecret ? "****" : undefined,
       batchSize: config.batchSize,
       batchInterval: config.batchInterval,
     });
