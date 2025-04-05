@@ -1,0 +1,33 @@
+# Cursor Rules for analytics-sdk
+
+[rules]
+# Enforce project scope
+project-purpose = "Build an installable, lightweight JavaScript SDK to send analytics events from web apps using an API key."
+
+# Keep goals focused
+must-do = [
+  "Only include logic necessary for collecting and sending analytics events.",
+  "All external communication must go through a user-provided API endpoint.",
+  "Expose clear init() and trackEvent() methods.",
+  "Track default metadata like timestamp, user agent, and URL.",
+  "Ensure the package stays under 10kB after bundling.",
+  "All code (including variable names, comments, and documentation) must be written in English.",
+]
+
+must-not-do = [
+  "Do not include dashboard, database, or server logic.",
+  "Do not add authentication or UI logic.",
+  "Do not couple SDK to a specific backend implementation.",
+  "Do not bloat the package with unnecessary dependencies.",
+  "Do not use any Turkish language in codebase, including comments or identifiers.",
+]
+
+# Target audience
+audience = "JavaScript/TypeScript developers integrating analytics into their frontend apps."
+
+# Future direction
+future = [
+  "Offline event queueing with localStorage",
+  "Retry logic with exponential backoff",
+  "Plugin architecture (e.g. integrate with React Router)",
+]
