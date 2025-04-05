@@ -60,11 +60,13 @@ export function flushQueue(): void {
   });
 
   // Send events to endpoint
-  fetch(config.endpoint, {
+  fetch(config.endpoint!, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       "X-Api-Key": config.apiKey,
+      "X-Client-ID": config.clientId,
+      "X-Client-Secret": config.clientSecret,
     },
     body: JSON.stringify({ events: eventsToSend }),
   })

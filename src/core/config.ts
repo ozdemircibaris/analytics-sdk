@@ -6,6 +6,7 @@ const DEFAULT_CONFIG: Partial<AnalyticsConfig> = {
   debug: false,
   batchSize: 10,
   batchInterval: 5000,
+  endpoint: "http://localhost:3000/api/events",
 };
 
 // Global variable to store the current configuration
@@ -22,8 +23,12 @@ export function setConfig(config: AnalyticsConfig): void {
     throw new Error("API Key is required");
   }
 
-  if (!config.endpoint) {
-    throw new Error("Endpoint URL is required");
+  if (!config.clientId) {
+    throw new Error("Client ID is required");
+  }
+
+  if (!config.clientSecret) {
+    throw new Error("Client Secret is required");
   }
 
   // Merge provided config with defaults

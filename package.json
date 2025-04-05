@@ -1,6 +1,6 @@
 {
   "name": "@ozdemircibaris/analytics-sdk",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "Lightweight JavaScript SDK for sending analytics events",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

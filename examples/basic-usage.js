@@ -1,10 +1,12 @@
 // Import the SDK
-import { initAnalytics, trackEvent } from "@your-org/analytics-sdk";
+import { initAnalytics, trackEvent } from "@ozdemircibaris/analytics-sdk";
 
-// Initialize the SDK with your API key and endpoint
+// Initialize the SDK with your API key, client ID, and client secret
 initAnalytics({
   apiKey: "your-api-key-here",
-  endpoint: "https://your-analytics-endpoint.com/events",
+  clientId: "your-client-id-here",
+  clientSecret: "your-client-secret-here",
+  // endpoint is optional, defaults to 'http://localhost:3000/api/track'
   debug: true, // Enable debug logs
   batchSize: 5, // Send events in batches of 5
   batchInterval: 10000, // Or every 10 seconds, whichever comes first

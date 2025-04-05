@@ -8,7 +8,7 @@ Lightweight JavaScript/TypeScript SDK for sending analytics events to your own a
 
 ## ✨ Overview
 
-A client-side analytics SDK that allows developers to send custom events to a remote analytics server using an API key. It is intended to be installed via NPM and initialized inside frontend applications.
+A client-side analytics SDK that allows developers to send custom events to a remote analytics server using authentication credentials. It is intended to be installed via NPM and initialized inside frontend applications.
 
 ## 🎯 Goals
 
@@ -31,10 +31,12 @@ yarn add @ozdemircibaris/analytics-sdk
 ```javascript
 import { initAnalytics, trackEvent } from "@ozdemircibaris/analytics-sdk";
 
-// Initialize the SDK with your API key and endpoint
+// Initialize the SDK with authentication credentials
 initAnalytics({
-  apiKey: "your_project_api_key",
-  endpoint: "https://api.yourdomain.com/track",
+  apiKey: "your_api_key",
+  clientId: "your_client_id",
+  clientSecret: "your_client_secret",
+  // endpoint is optional, defaults to 'http://localhost:3000/api/track'
 });
 
 // Track an event
@@ -45,7 +47,7 @@ trackEvent("page_view", {
 
 ## 📦 Features
 
-- **🔐 API key-based authentication** - Secure your analytics with API keys
+- **🔐 Multi-layer authentication** - Secure your analytics with API keys, client IDs, and secrets
 - **📄 Custom event payloads** - Track any data that matters to you
 - **🕒 Automatic metadata collection** - We capture timestamps, session IDs, and browser info
 - **📤 Event batching** - Events are sent in batches to minimize network requests
@@ -60,7 +62,9 @@ Initializes the analytics SDK with the provided configuration.
 ```typescript
 initAnalytics({
   apiKey: "your_api_key", // Required: Your project's API key
-  endpoint: "https://api.example.com/track", // Required: API endpoint to send events
+  clientId: "your_client_id", // Required: Your client ID
+  clientSecret: "your_client_secret", // Required: Your client secret
+  endpoint: "https://api.example.com/track", // Optional: API endpoint (default: 'http://localhost:3000/api/track')
   debug: false, // Optional: Enable debug logging (default: false)
   batchSize: 10, // Optional: Number of events to batch (default: 10)
   batchInterval: 5000, // Optional: Milliseconds between sends (default: 5000)

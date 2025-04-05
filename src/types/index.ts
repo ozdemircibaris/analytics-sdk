@@ -8,9 +8,20 @@ export interface AnalyticsConfig {
   apiKey: string;
 
   /**
-   * Full URL of the endpoint where events will be sent
+   * Client ID for authentication
    */
-  endpoint: string;
+  clientId: string;
+
+  /**
+   * Client Secret for authentication
+   */
+  clientSecret: string;
+
+  /**
+   * Full URL of the endpoint where events will be sent
+   * @default "http://localhost:3000/api/track"
+   */
+  endpoint?: string;
 
   /**
    * Optional debug mode flag that enables logging
