@@ -5,27 +5,28 @@ import { getBrowserInfo, debugLog } from "../utils";
 
 /**
  * Tracks an analytics event with the given name and optional properties
- * @param eventName Name of the event to track
- * @param properties Optional custom properties for this event
+ * @param eventType Type of the event to track
+ * @param eventData Optional custom data for this event
  */
-export function trackEvent(eventName: string, properties?: EventProperties): void {
+export function trackEvent(eventType: string, eventData: EventProperties = {}): void {
   try {
     const config = getConfig();
-    const { url, userAgent } = getBrowserInfo();
+    const { url, browser, device } = getBrowserInfo();
 
     // Create the event payload
     const eventPayload: EventPayload = {
-      eventName,
-      properties,
+      type: eventType,
+      data: eventData,
       timestamp: Date.now(),
       url,
-      userAgent,
+      browser,
+      device,
       sessionId: getSessionId(),
     };
 
     debugLog(config.debug || false, "Tracking event", {
-      eventName,
-      properties,
+      type: eventType,
+      data: eventData,
     });
 
     // Add the event to the queue

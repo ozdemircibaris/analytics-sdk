@@ -18,12 +18,6 @@ export interface AnalyticsConfig {
   clientSecret: string;
 
   /**
-   * Full URL of the endpoint where events will be sent
-   * @default "http://localhost:3000/api/track"
-   */
-  endpoint?: string;
-
-  /**
    * Optional debug mode flag that enables logging
    */
   debug?: boolean;
@@ -51,19 +45,14 @@ export interface EventProperties {
  */
 export interface EventPayload {
   /**
-   * Event name/type
+   * Event type
    */
-  eventName: string;
+  type: string;
 
   /**
-   * Custom properties for this event
+   * Event data (properties)
    */
-  properties?: EventProperties;
-
-  /**
-   * Timestamp when the event was created
-   */
-  timestamp: number;
+  data: EventProperties;
 
   /**
    * Current page URL
@@ -71,12 +60,22 @@ export interface EventPayload {
   url: string;
 
   /**
-   * User agent string
+   * Browser information
    */
-  userAgent: string;
+  browser: string;
+
+  /**
+   * Device information
+   */
+  device: string;
 
   /**
    * Session ID (generated on init)
    */
   sessionId: string;
+
+  /**
+   * Timestamp when the event was created
+   */
+  timestamp: number;
 }

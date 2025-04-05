@@ -6,7 +6,6 @@ initAnalytics({
   apiKey: "your-api-key-here",
   clientId: "your-client-id-here",
   clientSecret: "your-client-secret-here",
-  // endpoint is optional, defaults to 'http://localhost:3000/api/track'
   debug: true, // Enable debug logs
   batchSize: 5, // Send events in batches of 5
   batchInterval: 10000, // Or every 10 seconds, whichever comes first

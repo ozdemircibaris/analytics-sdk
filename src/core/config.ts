@@ -1,12 +1,14 @@
 import { AnalyticsConfig } from "../types";
 import { generateUUID } from "../utils";
 
+// Fixed API endpoint
+export const API_ENDPOINT = "https://analytics-nine-azure.vercel.app/api/events";
+
 // Default configuration values
 const DEFAULT_CONFIG: Partial<AnalyticsConfig> = {
   debug: false,
   batchSize: 10,
   batchInterval: 5000,
-  endpoint: "https://analytics-nine-azure.vercel.app/api/events",
 };
 
 // Global variable to store the current configuration

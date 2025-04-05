@@ -1,5 +1,5 @@
 import { EventPayload } from "../types";
-import { getConfig } from "./config";
+import { getConfig, API_ENDPOINT } from "./config";
 import { debugLog } from "../utils";
 
 // Event queue for batching
@@ -57,10 +57,11 @@ export function flushQueue(): void {
 
   debugLog(config.debug || false, "Flushing event queue", {
     count: eventsToSend.length,
+    endpoint: API_ENDPOINT,
   });
 
   // Send events to endpoint
-  fetch(config.endpoint!, {
+  fetch(API_ENDPOINT, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

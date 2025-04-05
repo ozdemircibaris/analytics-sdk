@@ -13,7 +13,7 @@ A client-side analytics SDK that allows developers to send custom events to a re
 ## 🎯 Goals
 
 - Allow developers to integrate analytics via a single `init()` function
-- Automatically track basic metadata (timestamp, user agent, etc.)
+- Automatically track basic metadata (timestamp, browser, device, etc.)
 - Send batched events to a custom backend endpoint
 - Be lightweight, fast, and production-safe
 - Handle offline/queued events gracefully (coming soon)
@@ -36,7 +36,6 @@ initAnalytics({
   apiKey: "your_api_key",
   clientId: "your_client_id",
   clientSecret: "your_client_secret",
-  // endpoint is optional, defaults to 'http://localhost:3000/api/track'
 });
 
 // Track an event
@@ -49,7 +48,7 @@ trackEvent("page_view", {
 
 - **🔐 Multi-layer authentication** - Secure your analytics with API keys, client IDs, and secrets
 - **📄 Custom event payloads** - Track any data that matters to you
-- **🕒 Automatic metadata collection** - We capture timestamps, session IDs, and browser info
+- **🕒 Automatic metadata collection** - We capture timestamps, browser, device, and session info
 - **📤 Event batching** - Events are sent in batches to minimize network requests
 - **🛡️ Error handling** - Built-in error handling and retry logic
 
@@ -64,24 +63,39 @@ initAnalytics({
   apiKey: "your_api_key", // Required: Your project's API key
   clientId: "your_client_id", // Required: Your client ID
   clientSecret: "your_client_secret", // Required: Your client secret
-  endpoint: "https://api.example.com/track", // Optional: API endpoint (default: 'http://localhost:3000/api/track')
   debug: false, // Optional: Enable debug logging (default: false)
   batchSize: 10, // Optional: Number of events to batch (default: 10)
   batchInterval: 5000, // Optional: Milliseconds between sends (default: 5000)
 });
 ```
 
-### `trackEvent(eventName, properties)`
+### `trackEvent(eventType, eventData)`
 
-Tracks an event with the given name and optional properties.
+Tracks an event with the given type and optional data.
 
 ```typescript
 trackEvent("signup_completed", {
-  // Optional properties about the event
+  // Optional data about the event
   method: "email",
   duration: 30,
   referrer: document.referrer,
 });
+```
+
+## 🔄 Event Structure
+
+Events are sent to your backend with the following structure:
+
+```typescript
+{
+  type: string; // Event type (e.g., 'page_view', 'button_click')
+  data: object; // Event data/properties object
+  url: string; // Current page URL
+  browser: string; // Browser name (e.g., 'Chrome', 'Firefox')
+  device: string; // Device type (e.g., 'Windows', 'iOS', 'Android')
+  sessionId: string; // Unique ID for the current session
+  timestamp: number; // Unix timestamp in milliseconds
+}
 ```
 
 ## 🔄 Event Flow

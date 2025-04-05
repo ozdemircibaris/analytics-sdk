@@ -2,7 +2,7 @@
  * @ozdemircibaris/analytics-sdk
  * Lightweight JavaScript/TypeScript SDK for sending analytics events
  *
- * Default endpoint: http://localhost:3000/api/track
+ * Fixed endpoint: https://analytics-nine-azure.vercel.app/api/events
  * Required parameters: apiKey, clientId, clientSecret
  */
 
