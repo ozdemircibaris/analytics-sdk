@@ -49,7 +49,7 @@ trackEvent("page_view", {
 - **🔐 Multi-layer authentication** - Secure your analytics with API keys, client IDs, and secrets
 - **📄 Custom event payloads** - Track any data that matters to you
 - **🕒 Automatic metadata collection** - We capture timestamps, browser, device, and session info
-- **📤 Event batching** - Events are sent in batches to minimize network requests
+- **📤 Event batching** - Events are collected in batches but sent individually
 - **🛡️ Error handling** - Built-in error handling and retry logic
 
 ## 📖 API Reference
@@ -93,19 +93,23 @@ Events are sent to your backend with the following structure:
   url: string; // Current page URL
   browser: string; // Browser name (e.g., 'Chrome', 'Firefox')
   device: string; // Device type (e.g., 'Windows', 'iOS', 'Android')
-  sessionId: string; // Unique ID for the current session
-  timestamp: number; // Unix timestamp in milliseconds
 }
 ```
+
+The SDK internally also tracks:
+
+- `sessionId`: Unique ID for the current session
+- `timestamp`: Unix timestamp in milliseconds
 
 ## 🔄 Event Flow
 
 1. You call `trackEvent()` in your application
 2. The event is added to a queue
-3. Events are automatically sent when:
+3. Events are processed when:
    - The queue reaches the configured batch size
    - The configured batch interval is reached
-4. If the request fails, events are re-added to the queue for retry
+4. Each event is sent individually to the API endpoint
+5. Failed events are re-added to the queue for retry
 
 ## 🚧 Roadmap
 

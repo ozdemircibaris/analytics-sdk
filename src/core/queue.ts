@@ -43,6 +43,47 @@ export function addToQueue(event: EventPayload): void {
 }
 
 /**
+ * Sends a single event to the analytics endpoint
+ * @param event The event to send
+ * @returns Promise resolving to successful response or error
+ */
+async function sendSingleEvent(event: EventPayload): Promise<boolean> {
+  try {
+    const config = getConfig();
+
+    // Prepare the event object in the format the API expects
+    const eventPayload = {
+      type: event.type,
+      data: event.data,
+      url: event.url,
+      browser: event.browser,
+      device: event.device,
+      // Note: API doesn't use sessionId or timestamp, so we don't send them
+    };
+
+    const response = await fetch(API_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Api-Key": config.apiKey,
+        "X-Client-ID": config.clientId,
+        "X-Client-Secret": config.clientSecret,
+      },
+      body: JSON.stringify(eventPayload),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return true;
+  } catch (error) {
+    console.error("[Analytics SDK] Error sending event:", error);
+    return false;
+  }
+}
+
+/**
  * Sends queued events to the analytics endpoint
  */
 export function flushQueue(): void {
@@ -52,38 +93,39 @@ export function flushQueue(): void {
     return;
   }
 
-  const eventsToSend = [...eventQueue];
-  eventQueue = [];
-
   debugLog(config.debug || false, "Flushing event queue", {
-    count: eventsToSend.length,
+    count: eventQueue.length,
     endpoint: API_ENDPOINT,
   });
 
-  // Send events to endpoint
-  fetch(API_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Api-Key": config.apiKey,
-      "X-Client-ID": config.clientId,
-      "X-Client-Secret": config.clientSecret,
-    },
-    body: JSON.stringify({ events: eventsToSend }),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+  // Take a copy of the current queue for processing
+  const eventsToProcess = [...eventQueue];
+  eventQueue = [];
+
+  // Process events one by one
+  (async () => {
+    const failedEvents: EventPayload[] = [];
+
+    for (const event of eventsToProcess) {
+      const success = await sendSingleEvent(event);
+
+      if (!success) {
+        failedEvents.push(event);
       }
-      debugLog(config.debug || false, "Events sent successfully", {
-        count: eventsToSend.length,
+    }
+
+    // Add failed events back to the queue for retrying later
+    if (failedEvents.length > 0) {
+      debugLog(config.debug || false, "Re-queuing failed events", {
+        count: failedEvents.length,
       });
-      return response.json();
-    })
-    .catch((error) => {
-      console.error("[Analytics SDK] Error sending events:", error);
-      // Re-add events back to queue on failure
-      // This is a simple retry approach - could be enhanced with exponential backoff
-      eventQueue = [...eventsToSend, ...eventQueue];
-    });
+
+      // Add failed events back to the front of the queue
+      eventQueue = [...failedEvents, ...eventQueue];
+    } else {
+      debugLog(config.debug || false, "All events sent successfully", {
+        count: eventsToProcess.length,
+      });
+    }
+  })();
 }
