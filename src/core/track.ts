@@ -1,5 +1,5 @@
 import { EventProperties, EventPayload } from "../types";
-import { getConfig, getSessionId } from "./config";
+import { getConfig, getSessionId, getUserData } from "./config";
 import { addToQueue } from "./queue";
 import { getBrowserInfo, debugLog } from "../utils";
 
@@ -13,6 +13,9 @@ export function trackEvent(eventType: string, eventData: EventProperties = {}): 
     const config = getConfig();
     const { url, browser, device } = getBrowserInfo();
 
+    // Get the current identified user if available
+    const userData = getUserData();
+
     // Create the event payload
     const eventPayload: EventPayload = {
       type: eventType,
@@ -24,9 +27,15 @@ export function trackEvent(eventType: string, eventData: EventProperties = {}): 
       sessionId: getSessionId(),
     };
 
+    // Add user data if available
+    if (userData) {
+      eventPayload.user = userData;
+    }
+
     debugLog(config.debug || false, "Tracking event", {
       type: eventType,
       data: eventData,
+      userId: userData?.id || undefined,
     });
 
     // Add the event to the queue

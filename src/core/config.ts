@@ -1,4 +1,4 @@
-import { AnalyticsConfig } from "../types";
+import { AnalyticsConfig, UserData } from "../types";
 import { generateUUID } from "../utils";
 
 // Fixed API endpoint
@@ -16,6 +16,9 @@ let currentConfig: AnalyticsConfig | null = null;
 
 // Session ID that persists during the lifetime of the SDK instance
 const sessionId = generateUUID();
+
+// Store identified user data
+let currentUser: UserData | null = null;
 
 /**
  * Sets the SDK configuration
@@ -56,4 +59,67 @@ export function getConfig(): AnalyticsConfig {
  */
 export function getSessionId(): string {
   return sessionId;
+}
+
+/**
+ * Sets the current user data
+ * @param userData The user data to store
+ */
+export function setUserData(userData: UserData): void {
+  if (!userData.id) {
+    throw new Error("User ID is required");
+  }
+
+  currentUser = userData;
+
+  // Store in localStorage for persistence if available
+  try {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem("analytics_user", JSON.stringify(userData));
+    }
+  } catch {
+    // Ignore localStorage errors
+  }
+}
+
+/**
+ * Gets the current user data if available
+ * @returns The current user data or null if not identified
+ */
+export function getUserData(): UserData | null {
+  // If we have user data in memory, use that
+  if (currentUser) {
+    return currentUser;
+  }
+
+  // Try to get from localStorage if available
+  try {
+    if (typeof localStorage !== "undefined") {
+      const storedUser = localStorage.getItem("analytics_user");
+      if (storedUser) {
+        currentUser = JSON.parse(storedUser);
+        return currentUser;
+      }
+    }
+  } catch {
+    // Ignore localStorage errors
+  }
+
+  return null;
+}
+
+/**
+ * Clears the current user data
+ */
+export function clearUserData(): void {
+  currentUser = null;
+
+  // Remove from localStorage if available
+  try {
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem("analytics_user");
+    }
+  } catch {
+    // Ignore localStorage errors
+  }
 }

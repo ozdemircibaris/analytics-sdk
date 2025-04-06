@@ -69,6 +69,20 @@ initAnalytics({
 });
 ```
 
+### `identifyUser(userData)`
+
+Identifies a user with the provided user data. All subsequent events will automatically be associated with this user.
+
+```typescript
+identifyUser({
+  id: "user-123", // Required: User's unique identifier
+  name: "John Doe", // Optional: User's name (explicitly supported)
+  email: "john@example.com", // Optional: User's email (explicitly supported)
+  plan: "premium", // Optional: Any additional custom properties
+  signupDate: 1623412800000, // Optional: Any additional custom properties
+});
+```
+
 ### `trackEvent(eventType, eventData)`
 
 Tracks an event with the given type and optional data.
@@ -93,6 +107,12 @@ Events are sent to your backend with the following structure:
   url: string; // Current page URL
   browser: string; // Browser name (e.g., 'Chrome', 'Firefox')
   device: string; // Device type (e.g., 'Windows', 'iOS', 'Android')
+  user?: { // Optional user data if identifyUser() was called
+    id: string; // User's unique identifier
+    name?: string; // Optional user's name
+    email?: string; // Optional user's email
+    [key: string]; // Any additional user properties
+  }
 }
 ```
 
@@ -124,17 +144,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-🧠 Notes
-
-- This is part of a larger analytics platform that includes:
-
-- A public-facing dashboard (Next.js)
-
-- Project & API key management
-
-Event visualizations per user
-
-```
-
-```

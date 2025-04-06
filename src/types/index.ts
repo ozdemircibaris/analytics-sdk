@@ -34,6 +34,31 @@ export interface AnalyticsConfig {
 }
 
 /**
+ * User identification data
+ */
+export interface UserData {
+  /**
+   * User's unique identifier
+   */
+  id: string;
+
+  /**
+   * User's name (optional)
+   */
+  name?: string;
+
+  /**
+   * User's email (optional)
+   */
+  email?: string;
+
+  /**
+   * Additional user properties
+   */
+  [key: string]: string | number | boolean | null | undefined;
+}
+
+/**
  * Custom properties for an event
  */
 export interface EventProperties {
@@ -78,4 +103,9 @@ export interface EventPayload {
    * Timestamp when the event was created
    */
   timestamp: number;
+
+  /**
+   * User data if available
+   */
+  user?: UserData;
 }
