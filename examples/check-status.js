@@ -42,6 +42,10 @@ function handleLogin(userId, userData) {
 
     console.log("User is now identified:", isUserIdentified());
 
+    // Note: An 'identify' event is automatically triggered
+    // when identifyUser() is called
+    // The identify event will include all user properties in the event data
+
     // Track a login event
     trackEvent("user_logged_in", {
       method: "email",

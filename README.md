@@ -71,7 +71,7 @@ initAnalytics({
 
 ### `identifyUser(userData)`
 
-Identifies a user with the provided user data. All subsequent events will automatically be associated with this user.
+Identifies a user with the provided user data. All subsequent events will automatically be associated with this user. Automatically triggers an `identify` event with all user properties included in the event data.
 
 ```typescript
 identifyUser({
@@ -81,6 +81,8 @@ identifyUser({
   plan: "premium", // Optional: Any additional custom properties
   signupDate: 1623412800000, // Optional: Any additional custom properties
 });
+
+// The above will automatically trigger an 'identify' event with the user data attached
 ```
 
 ### `isUserIdentified()`

@@ -28,6 +28,10 @@ document.getElementById("login-form").addEventListener("submit", (event) => {
     loginTimestamp: Date.now(), // Additional custom property
   });
 
+  // Note: The SDK automatically triggers an 'identify' event when identifyUser is called
+  // The identify event will include all user properties in the event data
+  // No need to manually track an identify event
+
   // Track the login event
   trackEvent("user_logged_in", {
     method: "email", // These properties are specific to this event
