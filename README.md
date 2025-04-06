@@ -83,6 +83,30 @@ identifyUser({
 });
 ```
 
+### `isUserIdentified()`
+
+Checks if a user has been identified. Returns a boolean value.
+
+```typescript
+if (isUserIdentified()) {
+  console.log("User is identified");
+} else {
+  console.log("User is not identified yet");
+}
+```
+
+### `isInitialized()`
+
+Checks if the SDK has been initialized. Returns a boolean value.
+
+```typescript
+if (isInitialized()) {
+  console.log("SDK is initialized");
+} else {
+  console.log("SDK is not initialized yet");
+}
+```
+
 ### `trackEvent(eventType, eventData)`
 
 Tracks an event with the given type and optional data.

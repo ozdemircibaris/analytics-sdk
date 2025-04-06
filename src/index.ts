@@ -9,4 +9,5 @@
 export { initAnalytics } from "./core/init";
 export { trackEvent } from "./core/track";
 export { identifyUser } from "./core/identify";
+export { isUserIdentified, isInitialized } from "./core/config";
 export type { AnalyticsConfig, EventPayload, UserData } from "./types";

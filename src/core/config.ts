@@ -123,3 +123,37 @@ export function clearUserData(): void {
     // Ignore localStorage errors
   }
 }
+
+/**
+ * Checks if a user has been identified
+ * @returns boolean indicating if a user has been identified
+ */
+export function isUserIdentified(): boolean {
+  // Check memory first
+  if (currentUser) {
+    return true;
+  }
+
+  // Try to get from localStorage if available
+  try {
+    if (typeof localStorage !== "undefined") {
+      const storedUser = localStorage.getItem("analytics_user");
+      if (storedUser) {
+        // Don't need to set currentUser here as getUserData() will do that if needed
+        return true;
+      }
+    }
+  } catch {
+    // Ignore localStorage errors
+  }
+
+  return false;
+}
+
+/**
+ * Checks if the SDK has been initialized
+ * @returns boolean indicating if the SDK is initialized
+ */
+export function isInitialized(): boolean {
+  return currentConfig !== null;
+}
