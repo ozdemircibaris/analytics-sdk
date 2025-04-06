@@ -58,6 +58,7 @@ async function sendSingleEvent(event: EventPayload): Promise<boolean> {
       url: event.url,
       browser: event.browser,
       device: event.device,
+      user: event.user,
       // Note: API doesn't use sessionId or timestamp, so we don't send them
     };
 

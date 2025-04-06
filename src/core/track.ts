@@ -27,7 +27,6 @@ export function trackEvent(eventType: string, eventData: EventProperties = {}): 
       sessionId: getSessionId(),
     };
 
-    console.log("userData", userData);
     // Add user data if available
     if (userData) {
       eventPayload.user = userData;
@@ -38,7 +37,7 @@ export function trackEvent(eventType: string, eventData: EventProperties = {}): 
       data: eventData,
       userId: userData?.id || undefined,
     });
-    console.log("eventPayload", eventPayload);
+
     // Add the event to the queue
     addToQueue(eventPayload);
   } catch (error) {
